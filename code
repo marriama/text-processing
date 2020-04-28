@@ -1,0 +1,31 @@
+#词频统计
+import re#正则表达式库
+import collections#词频统计库
+import matplotlib as plt#图像展示库
+fn=open("harry potter.txt",'rt',encoding='utf-8')
+data=fn.read()#读出整个文件
+fn.close()#关闭文件
+
+#文本预处理
+pattern = re.compile(u'\t|\n|\.|-|:|;|\)|\(|\?|\'|\"|,|\!|\?',re.I) # 使用定义正则表达式匹配模式,用re.I忽略大小写
+data = re.sub(pattern, '',data) # 将符合模式的字符去除
+count={}#初始字典
+#进行计数
+for w in data.split():
+    w_l=w.lower()#
+    count[w_l]=count.get(w_l,0)+1
+result=[(v,k)for k,v in count.items()]
+result.sort()
+b=len(result)
+#用rank记录排名与词频
+rank=[]
+file = open('data.txt', mode='w',encoding='utf-8')
+#for v,k in result[::-1]:
+for i in range(0,b):
+    n=b-i-1#使词频由高到低
+    v,k=result[n]
+    #写入txt文件
+    new_context ="No."+str(i+1)+" " +k + "   " + str(v) + '\n'
+    rank.append((i+1,v)) #将词频与排名记录于列表rank
+    file.write(new_context)
+file.close()   #关闭data文件夹         
